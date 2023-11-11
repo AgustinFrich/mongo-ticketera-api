@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import "./loadEnvironment.mjs";
 import "express-async-errors";
-import posts from "./routes/posts.mjs";
+import ticketsRouter from "./routes/tickets.mjs";
 
 const PORT = process.env.PORT || 5050;
 const app = express();
@@ -11,12 +11,12 @@ app.use(cors());
 app.use(express.json());
 
 // Load the /posts routes
-app.use("/posts", posts);
+app.use("/tickets", ticketsRouter);
 
 // Global error handling
-app.use((err, _req, res, next) => {
-  res.status(500).send("Uh oh! An unexpected error occured.")
-})
+app.use((err, _req, res, _next) => {
+  res.status(500).send("Error general");
+});
 
 // start the Express server
 app.listen(PORT, () => {

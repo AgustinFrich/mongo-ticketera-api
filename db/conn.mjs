@@ -3,14 +3,15 @@ import { MongoClient } from "mongodb";
 const connectionString = process.env.ATLAS_URI || "";
 
 const client = new MongoClient(connectionString);
-
-let conn;
-try {
-  conn = await client.connect();
-} catch(e) {
-  console.error(e);
+async function getDb() {
+  try {
+    let conn = await client.connect();
+    let db = conn.db("ticketera");
+    return db;
+  } catch (e) {
+    console.error(e);
+  }
+  return false;
 }
 
-let db = conn.db("sample_training");
-
-export default db;
+export default getDb;
