@@ -17,4 +17,6 @@ const ticketSchema = new Schema({
   empleado: Schema.Types.Mixed,
 });
 
+//  { unique: true }
+ticketSchema.index({ ubicacion: "2dsphere" });
 module.exports = mongoose.model("Ticket", ticketSchema);

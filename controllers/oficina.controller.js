@@ -38,3 +38,39 @@ exports.traerOficinaCercana = async (req, res) => {
     });
   }
 };
+
+exports.traerOficinaTipo = async (req, res) => {
+  const { tipo } = req.query;
+  try {
+    const data = await OficinaModel.find({
+      tipo: {
+        $eq: tipo,
+      },
+    });
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: error.message,
+    });
+  }
+};
+
+exports.traerOficinaTipoEx = async (req, res) => {
+  const { tipo } = req.query;
+  try {
+    const data = await OficinaModel.find({
+      tipo: {
+        $ne: tipo,
+      },
+    });
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: error.message,
+    });
+  }
+};
