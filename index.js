@@ -50,8 +50,8 @@ app.post(
   ticketController.traerIncluyenteLocalidad
 );
 app.get(
-  "/api/v1/ticket/traerPlanesNormales",
-  ticketController.traerPlanesNormales
+  "/api/v1/ticket/traerTicketsNormal",
+  ticketController.traerTicketsNormal
 );
 app.get("/api/v1/ticket/traerMensajeMoti", ticketController.traerMensajeMoti);
 

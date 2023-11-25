@@ -245,17 +245,29 @@ exports.traerIncluyenteLocalidad = async (req, res) => {
   }
 };
 
-exports.traerPlanesNormales = async (req, res) => {
+exports.traerTicketsNormal = async (req, res) => {
   try {
-    const data = await TicketModel.find({
-      planes: {
-        actual: {
-          $elemMatch: {
-            nombre: "normal",
-          },
+    const data = await TicketModel.aggregate([
+      {
+        $match: {
+          $or: [
+            {
+              motivo: {
+                $ne: "cambio de plan",
+              },
+            },
+            {
+              "planes.actual.nombre": "normal",
+            },
+          ],
         },
       },
-    });
+      {
+        $project: {
+          "planes.previos": 1,
+        },
+      },
+    ]);
     return res.status(200).json({
       data,
     });
