@@ -53,6 +53,7 @@ app.get(
   "/api/v1/ticket/traerPlanesNormales",
   ticketController.traerPlanesNormales
 );
+app.get("/api/v1/ticket/traerMensajeMoti", ticketController.traerMensajeMoti);
 
 // EMPLEADOS
 app.post("/api/v1/empleado", empleadoController.crearEmpleado);

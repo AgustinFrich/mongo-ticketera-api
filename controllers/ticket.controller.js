@@ -248,12 +248,41 @@ exports.traerIncluyenteLocalidad = async (req, res) => {
 exports.traerPlanesNormales = async (req, res) => {
   try {
     const data = await TicketModel.find({
-      "planes.actual": {
-        $elemMatch: {
-          nombre: "normal",
+      planes: {
+        actual: {
+          $elemMatch: {
+            nombre: "normal",
+          },
         },
       },
     });
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: error.message,
+    });
+  }
+};
+
+exports.traerMensajeMoti = async (req, res) => {
+  try {
+    const data = await TicketModel.aggregate([
+      {
+        $match: {
+          mensaje: /moti/gi,
+        },
+      },
+      {
+        $group: {
+          _id: "$usuario",
+          mensajes: {
+            $push: "$mensaje",
+          },
+        },
+      },
+    ]);
     return res.status(200).json({
       data,
     });
