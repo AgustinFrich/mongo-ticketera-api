@@ -7,6 +7,7 @@ app.use(express.json());
 
 const connectDB = require("./connectMongo");
 connectDB();
+app.use(cors());
 
 const PlanModel = require("./models/plan.model");
 const UsuarioModel = require("./models/usuario.model");
