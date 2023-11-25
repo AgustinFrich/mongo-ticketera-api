@@ -34,6 +34,10 @@ app.get(
   ticketController.traerSuperPackFullBarato
 );
 app.get(
+  "/api/v1/ticket/spuerpackfull/caro",
+  ticketController.traerSuperPackFullCaro
+);
+app.get(
   "/api/v1/ticket/spuerpackfull",
   ticketController.traerCanalesSuperPackFull
 );
@@ -44,6 +48,10 @@ app.post(
 app.post(
   "/api/v1/ticket/traerIncluyenteLocalidad",
   ticketController.traerIncluyenteLocalidad
+);
+app.get(
+  "/api/v1/ticket/traerPlanesNormales",
+  ticketController.traerPlanesNormales
 );
 
 // EMPLEADOS

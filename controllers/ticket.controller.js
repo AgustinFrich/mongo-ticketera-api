@@ -157,6 +157,31 @@ exports.traerSuperPackFullBarato = async (req, res) => {
   }
 };
 
+exports.traerSuperPackFullCaro = async (req, res) => {
+  try {
+    const data = await TicketModel.aggregate([
+      {
+        $match: {
+          "planes.actual.nombre": "SuperPackFull",
+          "planes.actual.valor": { $not: { $lte: 4000 } },
+        },
+      },
+      {
+        $project: {
+          usuario: 1,
+        },
+      },
+    ]);
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: error.message,
+    });
+  }
+};
+
 exports.traerCanalesSuperPackFull = async (req, res) => {
   try {
     const data = await TicketModel.aggregate([
@@ -208,6 +233,25 @@ exports.traerIncluyenteLocalidad = async (req, res) => {
     const data = await TicketModel.find({
       localidad: {
         $in: localidades,
+      },
+    });
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: error.message,
+    });
+  }
+};
+
+exports.traerPlanesNormales = async (req, res) => {
+  try {
+    const data = await TicketModel.find({
+      "planes.actual": {
+        $elemMatch: {
+          nombre: "normal",
+        },
       },
     });
     return res.status(200).json({
