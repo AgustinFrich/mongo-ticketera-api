@@ -32,7 +32,7 @@ exports.traerTickets = async (req, res) => {
 
 exports.traerTicketsEstado = async (req, res) => {
   const { resuelto } = req.query;
-  console.log(resuelto);
+
   try {
     const data = await TicketModel.find({ resuelto: resuelto });
     return res.status(200).json({

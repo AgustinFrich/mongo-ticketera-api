@@ -23,7 +23,7 @@ app.get("/api/v1/ticket", ticketController.traerTickets);
 app.get("/api/v1/ticket/estado", ticketController.traerTicketsEstado);
 app.get("/api/v1/ticket/tipo", ticketController.traerTicketsTipo);
 app.get("/api/v1/ticket/oficina", ticketController.traerPorOficina);
-app.get("/api/v1/ticket/cercano", ticketController.traerTicketsCercanos);
+app.post("/api/v1/ticket/cercano", ticketController.traerTicketsCercanos);
 app.get("/api/v1/ticket/derivaciones", ticketController.traerTicketsDerivados);
 app.get(
   "/api/v1/ticket/soluciones",
@@ -37,11 +37,11 @@ app.get(
   "/api/v1/ticket/spuerpackfull",
   ticketController.traerCanalesSuperPackFull
 );
-app.get(
+app.post(
   "/api/v1/ticket/traerExcluyenteLocalidad",
   ticketController.traerExcluyenteLocalidad
 );
-app.get(
+app.post(
   "/api/v1/ticket/traerIncluyenteLocalidad",
   ticketController.traerIncluyenteLocalidad
 );
