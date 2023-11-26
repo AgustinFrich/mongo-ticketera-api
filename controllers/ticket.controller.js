@@ -19,7 +19,11 @@ exports.crearTicket = async (req, res) => {
 
 exports.traerTickets = async (req, res) => {
   try {
-    const data = await TicketModel.find();
+    const data = await TicketModel.find({
+      mensaje: {
+        $type: "string",
+      },
+    });
     return res.status(200).json({
       data,
     });
@@ -295,6 +299,114 @@ exports.traerMensajeMoti = async (req, res) => {
         },
       },
     ]);
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: error.message,
+    });
+  }
+};
+
+exports.traerElemMatch = async (req, res) => {
+  try {
+    const data = await TicketModel.find({
+      derivaciones: {
+        $elemMatch: {
+          desde: {
+            nombre: "Agustin",
+            apellido: "Friadenrich",
+          },
+          hasta: {
+            nombre: "empleado",
+            apellido: "otro",
+          },
+        },
+      },
+    });
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: error.message,
+    });
+  }
+};
+
+exports.traerLookUp = async (req, res) => {
+  try {
+    const data = await TicketModel.aggregate([
+      {
+        $lookup: {
+          from: "empleados",
+          let: {
+            nombreT: "$empleado.nombre",
+            apellidoT: "$empleado.apellido",
+          },
+          pipeline: [
+            {
+              $match: {
+                $expr: {
+                  $and: [
+                    { $eq: ["$nombre", "$$nombreT"] },
+                    { $eq: ["$apellido", "$$apellidoT"] },
+                  ],
+                },
+              },
+            },
+          ],
+          as: "emple",
+        },
+      },
+      {
+        $match: {
+          $nor: [
+            {
+              "emple.despedido": {
+                $exists: true,
+              },
+            },
+            {
+              "emple.area": "atencion al cliente",
+            },
+          ],
+        },
+      },
+      {
+        $project: {
+          emple: 1,
+          mensaje: 1,
+        },
+      },
+    ]);
+    return res.status(200).json({
+      data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      msg: error.message,
+    });
+  }
+};
+
+exports.traerText = async (req, res) => {
+  try {
+    const data = await TicketModel.find(
+      {
+        $text: {
+          $search: "motivo",
+        },
+        soluciones: {
+          $all: ["seguro que no reiniciaste?", "desenchufar y enchufar"],
+        },
+      },
+      {
+        soluciones: 1,
+        mensaje: 1,
+      }
+    );
     return res.status(200).json({
       data,
     });

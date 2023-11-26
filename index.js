@@ -54,6 +54,9 @@ app.get(
   ticketController.traerTicketsNormal
 );
 app.get("/api/v1/ticket/traerMensajeMoti", ticketController.traerMensajeMoti);
+app.get("/api/v1/ticket/traerElemMatch", ticketController.traerElemMatch);
+app.get("/api/v1/ticket/traerLookUp", ticketController.traerLookUp);
+app.get("/api/v1/ticket/traerText", ticketController.traerText);
 
 // EMPLEADOS
 app.post("/api/v1/empleado", empleadoController.crearEmpleado);
